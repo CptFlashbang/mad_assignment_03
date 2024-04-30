@@ -37,10 +37,18 @@ class _AttractionsPageState extends State<AttractionsPage> {
                   .map(
                     (Post post) => ListTile(
                       title: Text(post.attractionTitle),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PostDetail(
+                            post: post,
+                          ),
+                        ),
+                      ),
                   ),
                   )
                   .toList(),
             );
+
           } else {
             return Center(child: Text("Not fetching"));
           }
@@ -87,4 +95,21 @@ class Post {
   }
 }
 
+class PostDetail extends StatelessWidget {
+  final Post post;
+  const PostDetail({required this.post});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(post.attractionTitle),
+        ),
+        body:Column(children: [
+                  Text("Name: ${post.attractionTitle}"),
+                  Text("Description: ${post.attractionDescription}")
+                ])
+    );
+  }
+}
 
