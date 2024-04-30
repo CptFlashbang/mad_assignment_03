@@ -51,7 +51,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
 }
 
 class HttpService {
-  final String postsURL = "https://github.com/CptFlashbang/mad_assignment_03/blob/be4aee1d521ea79fc1a1639822dd73e1084d65b6/apiAttractions.json";
+  final String postsURL = "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
   Future<List<Post>> getPosts() async {
     Response res = await get(Uri.parse(postsURL));
@@ -82,8 +82,8 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-        attractionTitle: json['animalName'] as String,
-        attractionDescription: json['animalPic'] as String);
+        attractionTitle: json['attractionTitle'] as String,
+        attractionDescription: json['attractionDescription'] as String);
   }
 }
 
