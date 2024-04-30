@@ -1,10 +1,10 @@
 [
     {
-        "title": "Bucking Bronco Coaster",
-        "animalName": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces."
+        "attractionTitle": "Bucking Bronco Coaster",
+        "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces."
     },
     {
-        "title": "Gold Rush Rapids",
-        "animalName": "The waterway is lined with artificial rocky outcrops, and small gold mining towns, and the rafts are designed like wooden barrels."
+        "attractionTitle": "Gold Rush Rapids",
+        "attractionDescription": "The waterway is lined with artificial rocky outcrops, and small gold mining towns, and the rafts are designed like wooden barrels."
     }
 ]
