@@ -25,7 +25,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Animals"),
+        title: Text("Attractions"),
       ),
       body: FutureBuilder(
         future: httpService.getPosts(),
@@ -36,7 +36,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
               children: posts!
                   .map(
                     (Post post) => ListTile(
-                      title: Text(post.animalName),
+                      title: Text(post.attractionTitle),
                   ),
                   )
                   .toList(),
@@ -51,7 +51,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
 }
 
 class HttpService {
-  final String postsURL = "https://fi67.github.io/JsonData/apiAnimals.json";
+  final String postsURL = "https://github.com/CptFlashbang/mad_assignment_03/blob/be4aee1d521ea79fc1a1639822dd73e1084d65b6/apiAttractions.json";
 
   Future<List<Post>> getPosts() async {
     Response res = await get(Uri.parse(postsURL));
@@ -73,26 +73,17 @@ class HttpService {
 }
 
 class Post {
-  final String animalName;
-  final String animalPic;
-  final String animalAge;
-  final String animalType;
-  final String animalBreed;
+  final String attractionTitle;
+  final String attractionDescription;
 
   Post(
-      {required this.animalName,
-        required this.animalPic,
-        required this.animalAge,
-        required this.animalType,
-        required this.animalBreed});
+      {required this.attractionTitle,
+        required this.attractionDescription});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
-        animalName: json['animalName'] as String,
-        animalPic: json['animalPic'] as String,
-        animalAge: json['animalAge'] as String,
-        animalType: json['animalType'] as String,
-        animalBreed: json['animalBreed'] as String);
+        attractionTitle: json['animalName'] as String,
+        attractionDescription: json['animalPic'] as String);
   }
 }
 

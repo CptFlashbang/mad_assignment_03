@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
             Text('Inverting Colors: ${media.invertColors}'),
             Text('In High Contrast: ${MediaQuery.highContrastOf(context)}'),
             Text('Disable Animation: ${media.disableAnimations}'),
-            Text('In Bold Text: ${MediaQuery.boldTextOverride(context)}'),
+            Text('In Bold Text: ${MediaQuery.boldTextOf(context)}'),
             Text('Navigation Mode: ${media.navigationMode}'),
             Text('Orientation: ${media.orientation}'),
           ],
