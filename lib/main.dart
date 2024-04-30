@@ -18,12 +18,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
         ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 16.0),
-        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(color: Color(0xFF391B92)),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Colors.deepOrange,
+            backgroundColor: Color(0xFF391B92)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       debugShowCheckedModeBanner: false,
@@ -54,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.black45,
+        // selectedItemColor: Colors.red,
+        // unselectedItemColor: Colors.black45,
         onTap: (int index) => setState(() => _currentIndex = index),
         items: [
           for (final tabItem in TabNavigationItem.items)
@@ -68,8 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
 
 class TabNavigationItem {
   final Widget page;
@@ -91,7 +94,7 @@ class TabNavigationItem {
     TabNavigationItem(
       page: const AttractionsPage(),
       icon: const Icon(Icons.email),
-      title: "Attractiions",
+      title: "Attractions",
     ),
     TabNavigationItem(
       page: const MapPage(),
