@@ -3,143 +3,97 @@
 
 //Detail
 import 'package:flutter/material.dart';
-import "package:mad_assignment_03/pet.dart";
-typedef Null ItemSelectedCallback(int value);
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart';
 
 class AttractionsPage extends StatefulWidget {
-  const  AttractionsPage({Key? key}) : super(key: key);
+  const AttractionsPage({Key? key}) : super(key: key);
+
   static Route<dynamic> route() => MaterialPageRoute(
-    builder: (context) => const AttractionsPage(),
-  );
+        builder: (context) => AttractionsPage(),
+      );
+
   @override
   _AttractionsPageState createState() => _AttractionsPageState();
 }
 
-class PetDetails extends StatelessWidget {
-  final Pet petdetail;
-  const PetDetails({super.key, required this.petdetail});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(petdetail.animalName),
-        ),
-        body: Column(children: [
-          Image.asset(petdetail.animalPic),
-          Text("Name: ${petdetail.animalName}"),
-          Text("Age: ${petdetail.animalAge}"),
-          Text("Type: ${petdetail.animalType}"),
-          Text("Breed: ${petdetail.animalBreed}"),
-        ]));
-  }
-}
-
-
 class _AttractionsPageState extends State<AttractionsPage> {
-   var isLargeScreen = false;
-  Pet savedPet = pets[0];
+  final HttpService httpService = HttpService();
 
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Animal"),
-        ),
-        body: OrientationBuilder(builder: (context, orientation) {
-          if (MediaQuery.of(context).size.width > 800) {
-            isLargeScreen = true;
-          } else {
-            isLargeScreen = false;
-          }
-          return Row(children: <Widget>[
-            Expanded(
-              child: ListWidget(pets, (value) {
-                if (isLargeScreen) {
-                  savedPet = pets[value];
-                  setState(() {});
-                } else {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return PetDetails(petdetail: pets[value]);
-                  }));
-                }
-              }),
-            ),
-            isLargeScreen
-                ? Expanded(flex: 2, child: DetailWidget(petdetail: savedPet))
-                : Container()
-          ]);
-        }));
-  }
-}
-
-class ListWidget extends StatefulWidget {
-  final List<Pet> pets;
-  final ItemSelectedCallback onItemSelected;
-  const ListWidget(this.pets, this.onItemSelected, {super.key});
-  @override
-  _ListWidgetState createState() => _ListWidgetState();
-}
-
-class _ListWidgetState extends State<ListWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.pets.length,
-      itemBuilder: (context, position) {
-        return Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Card(
-            child: InkWell(
-              onTap: () {
-                widget.onItemSelected(position);
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      widget.pets[position].animalName,
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
+      appBar: AppBar(
+        title: Text("Animals"),
+      ),
+      body: FutureBuilder(
+        future: httpService.getPosts(),
+        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+          if (snapshot.hasData) {
+            List<Post>? posts = snapshot.data;
+            return ListView(
+              children: posts!
+                  .map(
+                    (Post post) => ListTile(
+                      title: Text(post.animalName),
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+                  )
+                  .toList(),
+            );
+          } else {
+            return Center(child: Text("Not fetching"));
+          }
+        },
+      ),
     );
   }
 }
 
-class DetailWidget extends StatelessWidget {
-  final Pet petdetail;
+class HttpService {
+  final String postsURL = "https://fi67.github.io/JsonData/apiAnimals.json";
 
-  const DetailWidget({super.key, required this.petdetail});
+  Future<List<Post>> getPosts() async {
+    Response res = await get(Uri.parse(postsURL));
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-              child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 450),
-                  child: Image.asset(petdetail.animalPic))),
-          Expanded(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                Text("Name: ${petdetail.animalName}"),
-                Text("Age: ${petdetail.animalAge}"),
-                Text("Type: ${petdetail.animalType}"),
-                Text("Breed: ${petdetail.animalBreed}"),
-              ]))
-        ]);
+    if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
+
+      List<Post> posts = body
+          .map(
+            (dynamic item) => Post.fromJson(item),
+      )
+          .toList();
+
+      return posts;
+    } else {
+      throw "Unable to retrieve posts.";
+    }
   }
 }
+
+class Post {
+  final String animalName;
+  final String animalPic;
+  final String animalAge;
+  final String animalType;
+  final String animalBreed;
+
+  Post(
+      {required this.animalName,
+        required this.animalPic,
+        required this.animalAge,
+        required this.animalType,
+        required this.animalBreed});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+        animalName: json['animalName'] as String,
+        animalPic: json['animalPic'] as String,
+        animalAge: json['animalAge'] as String,
+        animalType: json['animalType'] as String,
+        animalBreed: json['animalBreed'] as String);
+  }
+}
+
 
