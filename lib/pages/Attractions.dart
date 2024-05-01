@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
-import 'package:path_provider/path_provider.dart';
 
 class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
@@ -136,6 +135,11 @@ class AttractionDetail extends StatefulWidget {
 
   @override
   _AttractionDetailState createState() => _AttractionDetailState();
+}
+
+Future<File> get _favouriteFile async {
+  final directory = await getApplicationDocumentsDirectory();
+  return File('${directory.path}/favourites.json');
 }
 
 class _AttractionDetailState extends State<AttractionDetail> {
