@@ -7,7 +7,7 @@ class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
 
   static Route<dynamic> route() => MaterialPageRoute(
-        builder: (context) => AttractionsPage(),
+        builder: (context) => const AttractionsPage(),
       );
 
   @override
@@ -21,7 +21,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Attractions"),
+        title: const Text("Attractions"),
       ),
       body: FutureBuilder(
         future: httpService.getAttractions(),
@@ -46,7 +46,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
             );
 
           } else {
-            return Center(child: Text("Not fetching"));
+            return const Center(child: Text("Not fetching"));
           }
         },
       ),
@@ -93,7 +93,7 @@ class Attraction {
 
 class AttractionDetail extends StatelessWidget {
   final Attraction attraction;
-  const AttractionDetail({required this.attraction});
+  const AttractionDetail({super.key, required this.attraction});
 
   @override
   Widget build(BuildContext context) {

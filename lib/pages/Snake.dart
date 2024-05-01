@@ -27,33 +27,33 @@ class _SnakePageState extends State<SnakePage> {
         children: <Widget>[
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat1.jpg'),
             color: Colors.teal[100],
+            child: Image.asset('images/cat1.jpg'),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat2.jpg'),
             color: Colors.teal[200],
+            child: Image.asset('images/cat2.jpg'),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat3.jpg'),
             color: Colors.teal[300],
+            child: Image.asset('images/cat3.jpg'),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat4.jpg'),
             color: Colors.teal[400],
+            child: Image.asset('images/cat4.jpg'),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat5.jpg'),
             color: Colors.teal[500],
+            child: Image.asset('images/cat5.jpg'),
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            child: Image.asset('images/cat6.jpg'),
             color: Colors.teal[600],
+            child: Image.asset('images/cat6.jpg'),
           ),
         ],
       )
