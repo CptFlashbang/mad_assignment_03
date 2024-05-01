@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Roberts Rodeo companion app',
       theme: ThemeData(
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Colors.deepOrange,
             backgroundColor: Color(0xFF391B92)),
       ),
-      home: const MyHomePage(title: 'Flutter assignment base page'),
+      home: const MyHomePage(title: 'Roberts Rodeo companion app'),
       debugShowCheckedModeBanner: false,
     );
   }
