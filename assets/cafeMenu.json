@@ -1,0 +1,21 @@
+{
+    "cafeMenu": [
+      {
+        "id": "1",
+        "category": "Entrees",
+        "name": "Cowboy Burger",
+        "description": "A juicy beef patty topped with cheddar cheese, bacon, and our special rodeo sauce.",
+        "price": "8.99",
+        "isVegetarian": false
+      },
+      {
+        "id": "2",
+        "category": "Drinks",
+        "name": "Sarsaparilla",
+        "description": "Traditional wild west brewed sarsaparilla soda.",
+        "price": "2.99",
+        "isVegetarian": true
+      }
+    ]
+  }
+  
