@@ -27,7 +27,7 @@ class _MapPageState extends State<MapPage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Maps Sample App'),
+          title: const Text('Your location'),
           elevation: 2,
         ),
         body: GoogleMap(
