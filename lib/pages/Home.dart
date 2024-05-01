@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mad_assignment_03/pages/Settings.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +19,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+            child: const Text('Settings'),
+          ),
+        ],
       ),
       body: Container(
         margin: const EdgeInsets.all(10.0),
@@ -42,8 +54,7 @@ class _HomePageState extends State<HomePage> {
             Text('Orientation: ${media.orientation}'),
           ],
         ),
-
-        ),
-      );
+      ),
+    );
   }
 }

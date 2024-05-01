@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:mad_assignment_03/pages/Settings.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -28,6 +28,17 @@ class _MapPageState extends State<MapPage> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Your location'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+              child: const Text('Settings'),
+            ),
+          ],
           elevation: 2,
         ),
         body: GoogleMap(

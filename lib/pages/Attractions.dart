@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:mad_assignment_03/pages/Settings.dart';
 
 class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
@@ -22,10 +23,22 @@ class _AttractionsPageState extends State<AttractionsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Attractions"),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+            child: const Text('Settings'),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: httpService.getAttractions(),
-        builder: (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
           if (snapshot.hasData) {
             List<Attraction>? attractions = snapshot.data;
             return ListView(
@@ -40,11 +53,10 @@ class _AttractionsPageState extends State<AttractionsPage> {
                           ),
                         ),
                       ),
-                  ),
+                    ),
                   )
                   .toList(),
             );
-
           } else {
             return const Center(child: Text("Not fetching"));
           }
@@ -55,7 +67,8 @@ class _AttractionsPageState extends State<AttractionsPage> {
 }
 
 class HttpService {
-  final String attractionsURL = "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
+  final String attractionsURL =
+      "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
   Future<List<Attraction>> getAttractions() async {
     Response res = await get(Uri.parse(attractionsURL));
@@ -66,7 +79,7 @@ class HttpService {
       List<Attraction> attractions = body
           .map(
             (dynamic item) => Attraction.fromJson(item),
-      )
+          )
           .toList();
 
       return attractions;
@@ -81,8 +94,7 @@ class Attraction {
   final String attractionDescription;
 
   Attraction(
-      {required this.attractionTitle,
-        required this.attractionDescription});
+      {required this.attractionTitle, required this.attractionDescription});
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
@@ -101,11 +113,9 @@ class AttractionDetail extends StatelessWidget {
         appBar: AppBar(
           title: Text(attraction.attractionTitle),
         ),
-        body:Column(children: [
-                  Text("Name: ${attraction.attractionTitle}"),
-                  Text("Description: ${attraction.attractionDescription}")
-                ])
-    );
+        body: Column(children: [
+          Text("Name: ${attraction.attractionTitle}"),
+          Text("Description: ${attraction.attractionDescription}")
+        ]));
   }
 }
-
