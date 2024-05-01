@@ -1,3 +1,5 @@
 {
-    "favourites": ["1", "3", "5"]
-  }
+  "Attraction 1": true,
+  "Attraction 2": false,
+  "Attraction 3": true
+}
