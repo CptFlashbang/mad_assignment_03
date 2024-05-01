@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:mad_assignment_03/pages/Home.dart';
-import 'package:mad_assignment_03/pages/Attractions.dart';
-import 'package:mad_assignment_03/pages/Map.dart';
-import 'package:mad_assignment_03/pages/Snake.dart';
+import 'package:mad_assignment_03/pages/home.dart';
+import 'package:mad_assignment_03/pages/attractions.dart';
+import 'package:mad_assignment_03/pages/map.dart';
+import 'package:mad_assignment_03/pages/snake.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +11,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
   // This widget is the root of your application.
   @override
