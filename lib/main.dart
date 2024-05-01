@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Colors.deepOrange,
             backgroundColor: Color(0xFF391B92)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter assignment base page'),
       debugShowCheckedModeBanner: false,
     );
   }
