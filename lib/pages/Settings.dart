@@ -17,13 +17,34 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Settings"),
       ),
       body: Container(
-        
-
+        margin: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Text('Sample text'),
+            ElevatedButton(
+              child: const Text("Button 1"),
+              onPressed: () {
+                // _getLastLocation();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Button 2"),
+              onPressed: () {
+                // _getLastLocation();
+              },
+            ),
+            ElevatedButton(
+              child: const Text("Button 3"),
+              onPressed: () {
+                // _getLastLocation();
+              },
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
-
