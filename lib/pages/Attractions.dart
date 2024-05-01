@@ -123,7 +123,7 @@ class Attraction {
   }
 }
 
-class AttractionDetail extends StatelessWidget {
+class AttractionDetail extends StatefulWidget {
   final Attraction attraction;
   final Map<String, bool> favouriteAttractions;
 
@@ -134,19 +134,43 @@ class AttractionDetail extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    bool isFavourite =
-        favouriteAttractions[attraction.attractionTitle] ?? false;
+  _AttractionDetailState createState() => _AttractionDetailState();
+}
 
+class _AttractionDetailState extends State<AttractionDetail> {
+  late bool isFavourite;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize favorite status based on the passed data
+    isFavourite = widget.favouriteAttractions[widget.attraction.attractionTitle] ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(attraction.attractionTitle),
+        title: Text(widget.attraction.attractionTitle),
       ),
       body: Column(
         children: [
-          Text("Name: ${attraction.attractionTitle}"),
-          Text("Description: ${attraction.attractionDescription}"),
+          Text("Name: ${widget.attraction.attractionTitle}"),
+          Text("Description: ${widget.attraction.attractionDescription}"),
           Text('Favourited: $isFavourite'),
+          IconButton(
+            icon: Icon(
+              isFavourite ? Icons.favorite : Icons.favorite_border,
+              color: isFavourite ? Colors.red : Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                isFavourite = !isFavourite;
+                // Optionally update the favorite status in a higher level state or data store
+                widget.favouriteAttractions[widget.attraction.attractionTitle] = isFavourite;
+              });
+            },
+          ),
         ],
       ),
     );
