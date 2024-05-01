@@ -63,8 +63,8 @@ class _LoginState extends State<Login> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        if (emailController.text == "arun@gogosoon.com" &&
-                            passwordController.text == "qazxswedcvfr") {
+                        if (emailController.text == "example@gmail.com" &&
+                            passwordController.text == "password") {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
