@@ -1,7 +1,3 @@
-//Master list
-  //Read in from github repo
-
-//Detail
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -28,19 +24,19 @@ class _AttractionsPageState extends State<AttractionsPage> {
         title: Text("Attractions"),
       ),
       body: FutureBuilder(
-        future: httpService.getPosts(),
-        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+        future: httpService.getAttractions(),
+        builder: (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
           if (snapshot.hasData) {
-            List<Post>? posts = snapshot.data;
+            List<Attraction>? attractions = snapshot.data;
             return ListView(
-              children: posts!
+              children: attractions!
                   .map(
-                    (Post post) => ListTile(
-                      title: Text(post.attractionTitle),
+                    (Attraction attraction) => ListTile(
+                      title: Text(attraction.attractionTitle),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => PostDetail(
-                            post: post,
+                          builder: (context) => AttractionDetail(
+                            attraction: attraction,
                           ),
                         ),
                       ),
@@ -59,55 +55,55 @@ class _AttractionsPageState extends State<AttractionsPage> {
 }
 
 class HttpService {
-  final String postsURL = "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
+  final String attractionsURL = "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
-  Future<List<Post>> getPosts() async {
-    Response res = await get(Uri.parse(postsURL));
+  Future<List<Attraction>> getAttractions() async {
+    Response res = await get(Uri.parse(attractionsURL));
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
 
-      List<Post> posts = body
+      List<Attraction> attractions = body
           .map(
-            (dynamic item) => Post.fromJson(item),
+            (dynamic item) => Attraction.fromJson(item),
       )
           .toList();
 
-      return posts;
+      return attractions;
     } else {
-      throw "Unable to retrieve posts.";
+      throw "Unable to retrieve attractions.";
     }
   }
 }
 
-class Post {
+class Attraction {
   final String attractionTitle;
   final String attractionDescription;
 
-  Post(
+  Attraction(
       {required this.attractionTitle,
         required this.attractionDescription});
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
+  factory Attraction.fromJson(Map<String, dynamic> json) {
+    return Attraction(
         attractionTitle: json['attractionTitle'] as String,
         attractionDescription: json['attractionDescription'] as String);
   }
 }
 
-class PostDetail extends StatelessWidget {
-  final Post post;
-  const PostDetail({required this.post});
+class AttractionDetail extends StatelessWidget {
+  final Attraction attraction;
+  const AttractionDetail({required this.attraction});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(post.attractionTitle),
+          title: Text(attraction.attractionTitle),
         ),
         body:Column(children: [
-                  Text("Name: ${post.attractionTitle}"),
-                  Text("Description: ${post.attractionDescription}")
+                  Text("Name: ${attraction.attractionTitle}"),
+                  Text("Description: ${attraction.attractionDescription}")
                 ])
     );
   }
