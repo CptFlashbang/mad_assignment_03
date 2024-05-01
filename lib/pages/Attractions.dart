@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
@@ -17,6 +19,20 @@ class AttractionsPage extends StatefulWidget {
 
 class _AttractionsPageState extends State<AttractionsPage> {
   final HttpService httpService = HttpService();
+
+  List<String> favouriteAttractions = [];
+
+  Future<Map<String, bool>> readFavourites() async {
+  try {
+    final String response = await rootBundle.loadString('assets/favourites.json');
+    Map<String, dynamic> jsonMap = jsonDecode(response);
+
+    return jsonMap.map((key, value) => MapEntry(key, value as bool));
+  } catch (e) {
+    print('Error reading favourites: $e');
+    return {};
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +59,22 @@ class _AttractionsPageState extends State<AttractionsPage> {
             List<Attraction>? attractions = snapshot.data;
             return ListView(
               children: attractions!
-                  .map(
-                    (Attraction attraction) => ListTile(
-                      title: Text(attraction.attractionTitle),
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AttractionDetail(
-                            attraction: attraction,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                  .map((Attraction attraction) => ListTile(
+                        title: Text(attraction.attractionTitle),
+                        onTap: () async {
+                          Map<String, bool> favouriteAttractions =
+                              await readFavourites();
+                          print('Favourite attractions: $favouriteAttractions');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => AttractionDetail(
+                                attraction: attraction,
+                                favouriteAttractions: favouriteAttractions,
+                              ),
+                            ),
+                          );
+                        },
+                      ))
                   .toList(),
             );
           } else {
@@ -105,17 +125,30 @@ class Attraction {
 
 class AttractionDetail extends StatelessWidget {
   final Attraction attraction;
-  const AttractionDetail({super.key, required this.attraction});
+  final Map<String, bool> favouriteAttractions;
+
+  const AttractionDetail({
+    Key? key,
+    required this.attraction,
+    required this.favouriteAttractions,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isFavourite =
+        favouriteAttractions[attraction.attractionTitle] ?? false;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(attraction.attractionTitle),
-        ),
-        body: Column(children: [
+      appBar: AppBar(
+        title: Text(attraction.attractionTitle),
+      ),
+      body: Column(
+        children: [
           Text("Name: ${attraction.attractionTitle}"),
-          Text("Description: ${attraction.attractionDescription}")
-        ]));
+          Text("Description: ${attraction.attractionDescription}"),
+          Text('Favourited: $isFavourite'),
+        ],
+      ),
+    );
   }
 }
