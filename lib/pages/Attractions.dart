@@ -138,10 +138,7 @@ class AttractionDetail extends StatefulWidget {
   _AttractionDetailState createState() => _AttractionDetailState();
 }
 
-Future<File> get _favouriteFile async {
-  final directory = await getApplicationDocumentsDirectory();
-  return File('${directory.path}/favourites.json');
-}
+
 
 class _AttractionDetailState extends State<AttractionDetail> {
   late bool isFavourite;
