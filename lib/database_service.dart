@@ -20,7 +20,7 @@ class DatabaseService {
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE Movies(id TEXT PRIMARY KEY, name TEXT, saved BOOL)');
+        'CREATE TABLE Attractions(id TEXT PRIMARY KEY, name TEXT, saved BOOL)');
     log('TABLE CREATED');
   }
 }
