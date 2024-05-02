@@ -107,7 +107,7 @@ class Attraction {
       attractionID: json['attractionID'],
       attractionTitle: json['attractionTitle'],
       attractionDescription: json['attractionDescription'],
-      isSaved: json['isSaved'] ?? false,
+      isSaved: false,
     );
   }
 
