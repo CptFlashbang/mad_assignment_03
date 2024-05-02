@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad_assignment_03/main.dart';
+import 'package:mad_assignment_03/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
@@ -89,6 +90,27 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const Text("Don't have an account?"),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()),
+                        );
+                      },
+                      child: const Text("Register"),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
