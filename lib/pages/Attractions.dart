@@ -81,6 +81,12 @@ class HttpService {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path + '/attractions.json';
     final file = File(path);
+    if (await file.exists()) {
+      final fileContent = await file.readAsString();
+      List<dynamic> body = jsonDecode(fileContent);
+      List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+      return attractions;
+    }
   }
 
   Future<List<Attraction>> getAttractions() async {
