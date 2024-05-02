@@ -84,8 +84,11 @@ class HttpService {
     if (await file.exists()) {
       final fileContent = await file.readAsString();
       List<dynamic> body = jsonDecode(fileContent);
-      List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+      List<Attraction> attractions =
+          body.map((dynamic item) => Attraction.fromJson(item)).toList();
       return attractions;
+    } else {
+      throw Exception("Local attractions file not found.");
     }
   }
 
