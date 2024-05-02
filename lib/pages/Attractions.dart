@@ -104,12 +104,12 @@ class Attraction {
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
-      attractionID: json['attractionID'],
-      attractionTitle: json['attractionTitle'],
-      attractionDescription: json['attractionDescription'],
-      isSaved: false,
+        attractionID: json['attractionID'] ?? 'defaultID',  // Provide a default ID
+        attractionTitle: json['attractionTitle'] ?? 'No title',  // Provide a default title
+        attractionDescription: json['attractionDescription'] ?? 'No description',  // Provide a default description
+        isSaved: false,
     );
-  }
+}
 }
 
 class AttractionDetail extends StatelessWidget {
@@ -135,9 +135,9 @@ class AttractionDetail extends StatelessWidget {
             child: const Text("Save"),
             onPressed: () async {
               await dbService.insertAttraction(attraction as AttractionModel);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('${attraction.attractionTitle} saved!'),
-              ));
+              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //   content: Text('${attraction.attractionTitle} saved!'),
+              // ));
             },
           ),
           ElevatedButton(
