@@ -1,9 +1,11 @@
 [
     {
+        "attractionID" : "1",
         "attractionTitle": "Bucking Bronco Coaster",
         "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces."
     },
     {
+        "attractionID" : "2",
         "attractionTitle": "Gold Rush Rapids",
         "attractionDescription": "The waterway is lined with artificial rocky outcrops, and small gold mining towns, and the rafts are designed like wooden barrels."
     }
