@@ -31,18 +31,18 @@ class DatabaseService {
     print(attractions.length);
     return attractions;
   }
-  Future<void> insertMovie(AttractionModel movie) async {
+  Future<void> insertMovie(AttractionModel attraction) async {
     final db = await _databaseService.database;
     var data = await db.rawInsert(
         'INSERT INTO Attractions(id, name, saved, year ) VALUES(?,?,?,?)',
-        [movie.id, movie.name, movie.saved]);
+        [attraction.id, attraction.name, attraction.saved]);
     log('inserted $data');
   }
-  // Future<void> editMovie(AttractionModel movie) async {
+  // Future<void> editMovie(AttractionModel attraction) async {
   //   final db = await _databaseService.database;
   //   var data = await db.rawUpdate(
   //       'UPDATE Attractions SET name=?,saved=?,year=? WHERE ID=?',
-  //       [movie.name, movie.saved, movie.id]);
+  //       [attraction.name, attraction.saved, attraction.id]);
   //   log('updated $data');
   // }
   Future<void> deleteMovie(String id) async {
