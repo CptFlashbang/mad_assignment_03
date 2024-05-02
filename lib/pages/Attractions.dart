@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mad_assignment_03/attractionModel.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
@@ -78,20 +79,12 @@ class HttpService {
       "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
   Future<List<Attraction>> getLocalAttractions() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path + '/attractions.json';
-    final file = File(path);
-    if (await file.exists()) {
-      final fileContent = await file.readAsString();
-      List<dynamic> body = jsonDecode(fileContent);
-      List<Attraction> attractions =
-          body.map((dynamic item) => Attraction.fromJson(item)).toList();
-      return attractions;
-    } else {
-      throw Exception("Local attractions file not found.");
-    }
+    final String jsonString = await rootBundle.loadString('assets/attractions.json');
+    List<dynamic> body = jsonDecode(jsonString);
+    List<Attraction> attractions =
+        body.map((dynamic item) => Attraction.fromJson(item)).toList();
+    return attractions;
   }
-
   Future<List<Attraction>> getAttractions() async {
     try {
       http.Response res = await http.get(Uri.parse(attractionsURL));
