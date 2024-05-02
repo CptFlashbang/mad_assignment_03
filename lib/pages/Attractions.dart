@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mad_assignment_03/pages/Settings.dart';
+import 'package:mad_assignment_03/database_service.dart';
 
 class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
@@ -36,7 +37,8 @@ class _AttractionsPageState extends State<AttractionsPage> {
       ),
       body: FutureBuilder<List<Attraction>>(
         future: httpService.getAttractions(),
-        builder: (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
           if (snapshot.hasData) {
             List<Attraction>? attractions = snapshot.data;
             return ListView.builder(
@@ -69,14 +71,16 @@ class _AttractionsPageState extends State<AttractionsPage> {
 }
 
 class HttpService {
-  final String attractionsURL = "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
+  final String attractionsURL =
+      "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
   Future<List<Attraction>> getAttractions() async {
     http.Response res = await http.get(Uri.parse(attractionsURL));
 
     if (res.statusCode == 200) {
       List<dynamic> body = jsonDecode(res.body);
-      List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+      List<Attraction> attractions =
+          body.map((dynamic item) => Attraction.fromJson(item)).toList();
       return attractions;
     } else {
       throw Exception("Unable to retrieve attractions.");
@@ -88,15 +92,30 @@ class Attraction {
   final String attractionID;
   final String attractionTitle;
   final String attractionDescription;
+  bool isSaved; // Add a flag to manage saved state
 
-  Attraction({required this.attractionID, required this.attractionTitle, required this.attractionDescription});
+  Attraction({
+    required this.attractionID,
+    required this.attractionTitle,
+    required this.attractionDescription,
+    this.isSaved = false,
+  });
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
-      attractionID : json['attractionID'] as String,
-      attractionTitle: json['attractionTitle'] as String,
-      attractionDescription: json['attractionDescription'] as String,
+      attractionID: json['attractionID'],
+      attractionTitle: json['attractionTitle'],
+      attractionDescription: json['attractionDescription'],
+      isSaved: json['isSaved'] ?? false,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': attractionID,
+      'name': attractionTitle,
+      'saved': isSaved ? 1 : 0,
+    };
   }
 }
 
@@ -118,6 +137,18 @@ class AttractionDetail extends StatelessWidget {
         children: [
           Text("Name: ${attraction.attractionTitle}"),
           Text("Description: ${attraction.attractionDescription}"),
+          ElevatedButton(
+            child: const Text("Save"),
+            onPressed: () {
+              // Write attraction to database
+            },
+          ),
+          ElevatedButton(
+            child: const Text("Delete"),
+            onPressed: () {
+              // Delete attraction from database
+            },
+          ),
         ],
       ),
     );
