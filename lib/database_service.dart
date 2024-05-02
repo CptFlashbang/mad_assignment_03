@@ -13,9 +13,9 @@ class DatabaseService {
     return _database!;
   }
   Future<Database> initDatabase() async {
-    // final getDirectory = await getApplicationDocumentsDirectory();
-    // String path = getDirectory.path + '/attractions.db';
-    String path = '/attractions.db';
+    final getDirectory = await getApplicationDocumentsDirectory();
+    String path = getDirectory.path + '/attractions.db';
+    // String path = '/attractions.db';
     log(path);
     return await openDatabase(path, onCreate: _onCreate, version: 1);
   }
@@ -35,7 +35,7 @@ class DatabaseService {
   Future<void> insertAttraction(AttractionModel attraction) async {
     final db = await _databaseService.database;
     var data = await db.rawInsert(
-        'INSERT INTO Attractions(id, name, saved) VALUES(?,?,?,?)',
+        'INSERT INTO Attractions(id, name, saved) VALUES(?,?,?)',
         [attraction.id, attraction.name, attraction.saved]);
     log('inserted $data');
   }
