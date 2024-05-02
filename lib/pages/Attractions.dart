@@ -93,15 +93,18 @@ class HttpService {
   }
 
   Future<List<Attraction>> getAttractions() async {
-    http.Response res = await http.get(Uri.parse(attractionsURL));
+    try {
+      http.Response res = await http.get(Uri.parse(attractionsURL));
 
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-      List<Attraction> attractions =
-          body.map((dynamic item) => Attraction.fromJson(item)).toList();
-      return attractions;
-    } else {
-      throw Exception("Unable to retrieve attractions.");
+      if (res.statusCode == 200) {
+        List<dynamic> body = jsonDecode(res.body);
+        List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+        return attractions;
+      } else {
+        throw Exception("Unable to retrieve attractions.");
+      }
+    } catch (_) {
+      return getLocalAttractions();
     }
   }
 }
