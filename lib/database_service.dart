@@ -34,7 +34,7 @@ class DatabaseService {
   Future<void> insertAttraction(AttractionModel attraction) async {
     final db = await _databaseService.database;
     var data = await db.rawInsert(
-        'INSERT INTO Attractions(id, name, saved, year ) VALUES(?,?,?,?)',
+        'INSERT INTO Attractions(id, name, saved) VALUES(?,?,?,?)',
         [attraction.id, attraction.name, attraction.saved]);
     log('inserted $data');
   }
