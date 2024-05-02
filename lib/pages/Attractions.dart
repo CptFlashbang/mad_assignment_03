@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -21,6 +22,26 @@ class AttractionsPage extends StatefulWidget {
 
 class _AttractionsPageState extends State<AttractionsPage> {
   final HttpService httpService = HttpService();
+  List<Attraction>? attractions;
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    updateAttractions();
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => updateAttractions());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void updateAttractions() async {
+    attractions = await httpService.getAttractions();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +60,9 @@ class _AttractionsPageState extends State<AttractionsPage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Attraction>>(
-        future: httpService.getAttractions(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
-          if (snapshot.hasData) {
-            List<Attraction>? attractions = snapshot.data;
-            return ListView.builder(
+      body: attractions == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
               itemCount: attractions?.length ?? 0,
               itemBuilder: (context, index) {
                 var attraction = attractions![index];
@@ -62,14 +79,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
                   },
                 );
               },
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+            ),
     );
   }
 }
