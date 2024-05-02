@@ -29,7 +29,8 @@ class _AttractionsPageState extends State<AttractionsPage> {
   void initState() {
     super.initState();
     updateAttractions();
-    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => updateAttractions());
+    timer =
+        Timer.periodic(Duration(seconds: 60), (Timer t) => updateAttractions());
   }
 
   @override
@@ -89,19 +90,22 @@ class HttpService {
       "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
   Future<List<Attraction>> getLocalAttractions() async {
-    final String jsonString = await rootBundle.loadString('assets/attractions.json');
+    final String jsonString =
+        await rootBundle.loadString('assets/attractions.json');
     List<dynamic> body = jsonDecode(jsonString);
     List<Attraction> attractions =
         body.map((dynamic item) => Attraction.fromJson(item)).toList();
     return attractions;
   }
+
   Future<List<Attraction>> getAttractions() async {
     try {
       http.Response res = await http.get(Uri.parse(attractionsURL));
 
       if (res.statusCode == 200) {
         List<dynamic> body = jsonDecode(res.body);
-        List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+        List<Attraction> attractions =
+            body.map((dynamic item) => Attraction.fromJson(item)).toList();
         return attractions;
       } else {
         throw Exception("Unable to retrieve attractions.");
