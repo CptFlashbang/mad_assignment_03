@@ -104,17 +104,20 @@ class Attraction {
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
-        attractionID: json['attractionID'] ?? 'defaultID',  // Provide a default ID
-        attractionTitle: json['attractionTitle'] ?? 'No title',  // Provide a default title
-        attractionDescription: json['attractionDescription'] ?? 'No description',  // Provide a default description
-        isSaved: false,
+      attractionID: json['attractionID'] ?? 'defaultID', // Provide a default ID
+      attractionTitle:
+          json['attractionTitle'] ?? 'No title', // Provide a default title
+      attractionDescription: json['attractionDescription'] ??
+          'No description', // Provide a default description
+      isSaved: false,
     );
-}
+  }
 }
 
 class AttractionDetail extends StatelessWidget {
   final Attraction attraction;
-  final DatabaseService dbService = DatabaseService(); // Database service instance
+  final DatabaseService dbService =
+      DatabaseService(); // Database service instance
 
   AttractionDetail({
     Key? key,
@@ -134,10 +137,20 @@ class AttractionDetail extends StatelessWidget {
           ElevatedButton(
             child: const Text("Save"),
             onPressed: () async {
-              await dbService.insertAttraction(attraction as AttractionModel);
-              // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //   content: Text('${attraction.attractionTitle} saved!'),
-              // ));
+              try {
+                AttractionModel attractionModel = AttractionModel(
+                    id: attraction.attractionID,
+                    name: attraction.attractionTitle,
+                    saved: attraction.isSaved);
+                await dbService.insertAttraction(attractionModel);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('${attraction.attractionTitle} saved!'),
+                ));
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Failed to save: $e'),
+                ));
+              }
             },
           ),
           ElevatedButton(
