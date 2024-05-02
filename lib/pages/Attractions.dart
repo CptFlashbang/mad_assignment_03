@@ -110,14 +110,6 @@ class Attraction {
       isSaved: false,
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': attractionID,
-      'name': attractionTitle,
-      'saved': isSaved ? 1 : 0,
-    };
-  }
 }
 
 class AttractionDetail extends StatelessWidget {
