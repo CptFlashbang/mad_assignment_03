@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mad_assignment_03/attractionModel.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
 import 'package:mad_assignment_03/database_service.dart';
 
@@ -121,8 +122,9 @@ class Attraction {
 
 class AttractionDetail extends StatelessWidget {
   final Attraction attraction;
+  final DatabaseService dbService = DatabaseService(); // Database service instance
 
-  const AttractionDetail({
+  AttractionDetail({
     Key? key,
     required this.attraction,
   }) : super(key: key);
@@ -139,14 +141,20 @@ class AttractionDetail extends StatelessWidget {
           Text("Description: ${attraction.attractionDescription}"),
           ElevatedButton(
             child: const Text("Save"),
-            onPressed: () {
-              // Write attraction to database
+            onPressed: () async {
+              await dbService.insertAttraction(attraction as AttractionModel);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('${attraction.attractionTitle} saved!'),
+              ));
             },
           ),
           ElevatedButton(
             child: const Text("Delete"),
-            onPressed: () {
-              // Delete attraction from database
+            onPressed: () async {
+              await dbService.deleteAttraction(attraction.attractionID);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('${attraction.attractionTitle} deleted!'),
+              ));
             },
           ),
         ],
