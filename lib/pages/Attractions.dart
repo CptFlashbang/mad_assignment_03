@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mad_assignment_03/attractionModel.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
 import 'package:mad_assignment_03/database_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
@@ -74,6 +76,12 @@ class _AttractionsPageState extends State<AttractionsPage> {
 class HttpService {
   final String attractionsURL =
       "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
+
+  Future<List<Attraction>> getLocalAttractions() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path + '/attractions.json';
+    final file = File(path);
+  }
 
   Future<List<Attraction>> getAttractions() async {
     http.Response res = await http.get(Uri.parse(attractionsURL));
