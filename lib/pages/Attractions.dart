@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mad_assignment_03/attractionModel.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
 import 'package:mad_assignment_03/database_service.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AttractionsPage extends StatefulWidget {
   const AttractionsPage({Key? key}) : super(key: key);
@@ -18,6 +22,26 @@ class AttractionsPage extends StatefulWidget {
 
 class _AttractionsPageState extends State<AttractionsPage> {
   final HttpService httpService = HttpService();
+  List<Attraction>? attractions;
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    updateAttractions();
+    timer = Timer.periodic(Duration(seconds: 60), (Timer t) => updateAttractions());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void updateAttractions() async {
+    attractions = await httpService.getAttractions();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +60,9 @@ class _AttractionsPageState extends State<AttractionsPage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Attraction>>(
-        future: httpService.getAttractions(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Attraction>> snapshot) {
-          if (snapshot.hasData) {
-            List<Attraction>? attractions = snapshot.data;
-            return ListView.builder(
+      body: attractions == null
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
               itemCount: attractions?.length ?? 0,
               itemBuilder: (context, index) {
                 var attraction = attractions![index];
@@ -59,14 +79,7 @@ class _AttractionsPageState extends State<AttractionsPage> {
                   },
                 );
               },
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+            ),
     );
   }
 }
@@ -75,16 +88,26 @@ class HttpService {
   final String attractionsURL =
       "https://CptFlashbang.github.io/mad_assignment_03/apiAttractions.json";
 
+  Future<List<Attraction>> getLocalAttractions() async {
+    final String jsonString = await rootBundle.loadString('assets/attractions.json');
+    List<dynamic> body = jsonDecode(jsonString);
+    List<Attraction> attractions =
+        body.map((dynamic item) => Attraction.fromJson(item)).toList();
+    return attractions;
+  }
   Future<List<Attraction>> getAttractions() async {
-    http.Response res = await http.get(Uri.parse(attractionsURL));
+    try {
+      http.Response res = await http.get(Uri.parse(attractionsURL));
 
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-      List<Attraction> attractions =
-          body.map((dynamic item) => Attraction.fromJson(item)).toList();
-      return attractions;
-    } else {
-      throw Exception("Unable to retrieve attractions.");
+      if (res.statusCode == 200) {
+        List<dynamic> body = jsonDecode(res.body);
+        List<Attraction> attractions = body.map((dynamic item) => Attraction.fromJson(item)).toList();
+        return attractions;
+      } else {
+        throw Exception("Unable to retrieve attractions.");
+      }
+    } catch (_) {
+      return getLocalAttractions();
     }
   }
 }
