@@ -13,8 +13,9 @@ class DatabaseService {
     return _database!;
   }
   Future<Database> initDatabase() async {
-    final getDirectory = await getApplicationDocumentsDirectory();
-    String path = getDirectory.path + '/attractions.db';
+    // final getDirectory = await getApplicationDocumentsDirectory();
+    // String path = getDirectory.path + '/attractions.db';
+    String path = '/attractions.db';
     log(path);
     return await openDatabase(path, onCreate: _onCreate, version: 1);
   }
