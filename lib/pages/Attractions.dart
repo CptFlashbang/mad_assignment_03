@@ -85,13 +85,15 @@ class HttpService {
 }
 
 class Attraction {
+  final String attractionID;
   final String attractionTitle;
   final String attractionDescription;
 
-  Attraction({required this.attractionTitle, required this.attractionDescription});
+  Attraction({required this.attractionID, required this.attractionTitle, required this.attractionDescription});
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
+      attractionID : json['attractionID'] as String,
       attractionTitle: json['attractionTitle'] as String,
       attractionDescription: json['attractionDescription'] as String,
     );
