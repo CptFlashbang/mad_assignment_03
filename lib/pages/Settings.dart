@@ -23,7 +23,8 @@ class _SettingsPageState extends State<SettingsPage> {
         margin: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text('Sample text'),
+            Text('Network info'),
+            Text('Battery life'),
             ElevatedButton(
               child: const Text("Button 1"),
               onPressed: () {
