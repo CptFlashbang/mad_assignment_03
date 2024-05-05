@@ -58,11 +58,11 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _connectionStatus = result;
       if (_connectionStatus == ConnectivityResult.mobile) {
-        _connText = "mobile so it will eat your data";
+        _connText = "Mobile data";
       } else if (_connectionStatus == ConnectivityResult.wifi) {
-        _connText = "wifi so go ahead and download";
+        _connText = "Wifi";
       } else if (_connectionStatus == ConnectivityResult.none) {
-        _connText = "no connection - try again later";
+        _connText = "No connection";
       } else {
         _connText = "someat else";
       }
