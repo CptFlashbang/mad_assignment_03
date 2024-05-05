@@ -48,6 +48,7 @@ dependencies:
   sqflite: ^2.3.3
   sqflite_common_ffi: ^2.3.3
   battery_plus: ^3.0.0
+  camera: ^0.10.5+9
 
 dev_dependencies:
   flutter_test:
