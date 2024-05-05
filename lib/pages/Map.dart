@@ -13,6 +13,24 @@ class _MapPageState extends State<MapPage> {
   late GoogleMapController mapController;
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
+  Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Adding Wolverhampton marker
+    _markers.add(
+      Marker(
+        markerId: MarkerId('wolverhampton'),
+        position: LatLng(52.5870, -2.1289),
+        infoWindow: InfoWindow(
+          title: 'Wolverhampton',
+          snippet: 'Marker in Wolverhampton, England',
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      ),
+    );
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -43,10 +61,11 @@ class _MapPageState extends State<MapPage> {
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(52.5870, -2.1289), // You can change this to LatLng(52.5870, -2.1289) if you want the camera to start at Wolverhampton
             zoom: 11.0,
           ),
+          markers: _markers,
         ),
       ),
     );
