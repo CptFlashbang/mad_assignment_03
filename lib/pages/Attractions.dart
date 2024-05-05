@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mad_assignment_03/attractionModel.dart';
 import 'package:mad_assignment_03/pages/Settings.dart';
 import 'package:mad_assignment_03/database_service.dart';
+import 'package:mad_assignment_03/pages/camera.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AttractionsPage extends StatefulWidget {
@@ -188,6 +189,15 @@ class AttractionDetail extends StatelessWidget {
                 content: Text('${attraction.attractionTitle} deleted!'),
               ));
             },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CameraPage()),
+              );
+            },
+            child: const Text('Scan fast pass'),
           ),
         ],
       ),
