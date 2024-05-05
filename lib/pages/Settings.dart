@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
+import 'package:battery_plus/battery_plus.dart';
 import 'dart:async';
 
 class SettingsPage extends StatefulWidget {
@@ -8,6 +9,7 @@ class SettingsPage extends StatefulWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => const SettingsPage(),
       );
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -17,14 +19,17 @@ class _SettingsPageState extends State<SettingsPage> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  
+  final Battery _battery = Battery();
+  String _batteryLevel = 'Unknown battery level';
 
   @override
   void initState() {
     super.initState();
     initConnectivity();
-
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    initBatteryLevel();
   }
 
   @override
@@ -33,10 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
     late ConnectivityResult result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
@@ -44,15 +47,14 @@ class _SettingsPageState extends State<SettingsPage> {
       return;
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) {
       return Future.value(null);
     }
 
     return _updateConnectionStatus(result);
   }
+
+  
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     setState(() {
@@ -64,8 +66,21 @@ class _SettingsPageState extends State<SettingsPage> {
       } else if (_connectionStatus == ConnectivityResult.none) {
         _connText = "No connection";
       } else {
-        _connText = "someat else";
+      _connText = "someat else";
       }
+    });
+  }
+
+  Future<void> initBatteryLevel() async {
+    int batteryLevel;
+    try {
+      batteryLevel = await _battery.batteryLevel;
+    } catch (e) {
+      batteryLevel = -1;
+    }
+
+    setState(() {
+      _batteryLevel = batteryLevel == -1 ? 'Failed to get battery level' : '$batteryLevel%';
     });
   }
 
@@ -81,8 +96,8 @@ class _SettingsPageState extends State<SettingsPage> {
         margin: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text('Network info: $_connText'), // Corrected string interpolation
-            Text('Battery life'),
+            Text('Network info: $_connText'),
+            Text('Battery life: $_batteryLevel'),
             ElevatedButton(
               child: const Text("Button 1"),
               onPressed: () {
