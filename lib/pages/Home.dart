@@ -97,6 +97,46 @@ class Weather {
       jsonResponse["main"]["feels_like"],
       jsonResponse["weather"][0]["main"]);
 }
+
+class WeatherDataWidget extends StatelessWidget {
+  final Weather weather;
+
+  const WeatherDataWidget({super.key, required this.weather});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            weather.name,
+            style: const TextStyle(
+              fontSize: 50,
+            ),
+          ),
+          Text(
+            weather.weatherPic,
+            style: const TextStyle(
+              fontSize: 50,
+            ),
+          ),
+          Text(
+            "${weather.temperature.toStringAsFixed(2)}°C",
+            style: const TextStyle(fontSize: 50),
+          ),
+          weather.temperatureFeeling < 15.0
+              ? const Icon(
+                  Icons.cloud,
+                  color: Colors.grey,
+                  size: 72,
+                )
+              : const Icon(
+                  Icons.wb_sunny,
+                  color: Colors.yellow,
+                  size: 72,
+                )
+        ],
       ),
     );
   }
