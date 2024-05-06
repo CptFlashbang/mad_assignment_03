@@ -9,6 +9,7 @@ import 'package:mad_assignment_03/pages/Settings.dart';
 import 'package:mad_assignment_03/database_service.dart';
 import 'package:mad_assignment_03/pages/camera.dart';
 import 'package:path_provider/path_provider.dart';
+
 typedef ItemSelectedCallback = void Function(int value);
 
 class AttractionsPage extends StatefulWidget {
@@ -96,7 +97,8 @@ class _AttractionsPageState extends State<AttractionsPage> {
                 ),
                 isLargeScreen
                     ? Expanded(
-                        flex: 2, child: DetailWidget(attraction: savedAttraction))
+                        flex: 2,
+                        child: DetailWidget(attraction: savedAttraction))
                     : Container()
               ]);
             });
@@ -172,7 +174,7 @@ class Attraction {
 class AttractionDetail extends StatelessWidget {
   final Attraction attraction;
 
-  const AttractionDetail({required this.attraction});
+  AttractionDetail({required this.attraction});
 
   @override
   Widget build(BuildContext context) {
@@ -183,28 +185,79 @@ class AttractionDetail extends StatelessWidget {
       body: OrientationBuilder(
         builder: (context, orientation) {
           return orientation == Orientation.portrait
-              ? _buildVerticalLayout(attraction)
-              : _buildHorizontalLayout(attraction);
+              ? _buildVerticalLayout(context, attraction)
+              : _buildHorizontalLayout(context, attraction);
         },
       ),
     );
   }
 }
 
-Widget _buildVerticalLayout(attraction) {
+Widget _buildVerticalLayout(BuildContext context, Attraction attraction) {
+  final DatabaseService dbService = DatabaseService();
   return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
     // Image.network(attraction.animalPic),
     Expanded(
-      child:
-      Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text("Name: ${attraction.attractionTitle}"),
-        Text("Age: ${attraction.attractionDescription}"),
-      ]),
-    )
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+          Expanded(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                Text("Name: ${attraction.attractionTitle}"),
+                Text("Age: ${attraction.attractionDescription}"),
+              ])),
+          ElevatedButton(
+            child: const Text("Save"),
+            onPressed: () async {
+              try {
+                AttractionModel attractionModel = AttractionModel(
+                  id: attraction.attractionID,
+                  name: attraction.attractionTitle,
+                  saved: attraction.isSaved,
+                  description: attraction.attractionDescription,
+                  latitude: attraction.latitude, // Pass latitude
+                  longitude: attraction.longitude, // Pass longitude
+                );
+
+                await dbService.insertAttraction(attractionModel);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('${attraction.attractionTitle} saved!'),
+                ));
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Failed to save: $e'),
+                ));
+              }
+            },
+          ),
+          ElevatedButton(
+            child: const Text("Delete"),
+            onPressed: () async {
+              await dbService.deleteAttraction(attraction.attractionID);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('${attraction.attractionTitle} deleted!'),
+              ));
+            },
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CameraPage()),
+              );
+            },
+            child: const Text('Scan fast pass'),
+          ),
+        ]))
   ]);
 }
 
-Widget _buildHorizontalLayout(attraction) {
+Widget _buildHorizontalLayout(BuildContext context, Attraction attraction) {
+  final DatabaseService dbService = DatabaseService();
   return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -215,9 +268,57 @@ Widget _buildHorizontalLayout(attraction) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Name: ${attraction.attractionTitle}"),
-                  Text("Age: ${attraction.attractionDescription}"),
-                ]))
+              Text("Name: ${attraction.attractionTitle}"),
+              Text("Age: ${attraction.attractionDescription}"),
+            ])),
+        Expanded(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              ElevatedButton(
+                child: const Text("Save"),
+                onPressed: () async {
+                  try {
+                    AttractionModel attractionModel = AttractionModel(
+                      id: attraction.attractionID,
+                      name: attraction.attractionTitle,
+                      saved: attraction.isSaved,
+                      description: attraction.attractionDescription,
+                      latitude: attraction.latitude, // Pass latitude
+                      longitude: attraction.longitude, // Pass longitude
+                    );
+
+                    await dbService.insertAttraction(attractionModel);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('${attraction.attractionTitle} saved!'),
+                    ));
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Failed to save: $e'),
+                    ));
+                  }
+                },
+              ),
+              ElevatedButton(
+                child: const Text("Delete"),
+                onPressed: () async {
+                  await dbService.deleteAttraction(attraction.attractionID);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('${attraction.attractionTitle} deleted!'),
+                  ));
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CameraPage()),
+                  );
+                },
+                child: const Text('Scan fast pass'),
+              ),
+            ]))
       ]);
 }
 
@@ -269,8 +370,8 @@ class _ListWidgetState extends State<ListWidget> {
 
 class DetailWidget extends StatelessWidget {
   final Attraction attraction;
-
-  const DetailWidget({required this.attraction});
+  final DatabaseService dbService = DatabaseService();
+  DetailWidget({required this.attraction});
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +387,49 @@ class DetailWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                 Text("Name: ${this.attraction.attractionTitle}"),
-                Text("Age: ${this.attraction.attractionDescription}")
+                Text("Age: ${this.attraction.attractionDescription}"),
+                ElevatedButton(
+                  child: const Text("Save"),
+                  onPressed: () async {
+                    try {
+                      AttractionModel attractionModel = AttractionModel(
+                        id: attraction.attractionID,
+                        name: attraction.attractionTitle,
+                        saved: attraction.isSaved,
+                        description: attraction.attractionDescription,
+                        latitude: attraction.latitude, // Pass latitude
+                        longitude: attraction.longitude, // Pass longitude
+                      );
+
+                      await dbService.insertAttraction(attractionModel);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('${attraction.attractionTitle} saved!'),
+                      ));
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Failed to save: $e'),
+                      ));
+                    }
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Delete"),
+                  onPressed: () async {
+                    await dbService.deleteAttraction(attraction.attractionID);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('${attraction.attractionTitle} deleted!'),
+                    ));
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CameraPage()),
+                    );
+                  },
+                  child: const Text('Scan fast pass'),
+                ),
               ]))
         ]);
   }
