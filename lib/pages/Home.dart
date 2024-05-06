@@ -102,7 +102,7 @@ class WeatherNetworkService {
   static Future<Weather> getWeatherData(lat, lon) async {
     String myKey = "4a5b40d08fb85eaa51451bee38fecb28";
     String openWeatherUrl =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon& units=metric&appid=$myKey";
+        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&appid=$myKey";
 
     var response = await http.get(Uri.parse(openWeatherUrl));
     if (response.statusCode == 200) {
