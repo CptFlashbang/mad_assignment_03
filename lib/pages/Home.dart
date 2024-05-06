@@ -63,6 +63,22 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
+class Weather {
+  //model for weather api
+  String name;
+  double temperature;
+  double temperatureFeeling;
+  String weatherPic;
+
+  Weather(
+      this.name, this.temperature, this.temperatureFeeling, this.weatherPic);
+
+  factory Weather.fromJson(Map<String, dynamic> jsonResponse) => Weather(
+      jsonResponse["name"],
+      jsonResponse["main"]["temp"],
+      jsonResponse["main"]["feels_like"],
+      jsonResponse["weather"][0]["main"]);
+}
       ),
     );
   }
