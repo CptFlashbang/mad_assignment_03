@@ -57,6 +57,62 @@
         "attractionDescription": "Walk-through attraction with eerie ghostly encounters in the setting of an abandoned mining town, complete with special effects and live actors.",
         "latitude": 52.5855,
         "longitude": -2.1400
+    },
+    {
+        "attractionID": "9",
+        "attractionTitle": "Silver Mine Expedition",
+        "attractionDescription": "A mine train roller coaster that weaves through a realistically recreated silver mine, with dark tunnels and sudden drops.",
+        "latitude": 52.5865,
+        "longitude": -2.1295
+    },
+    {
+        "attractionID": "10",
+        "attractionTitle": "Saloon Showdown",
+        "attractionDescription": "Interactive laser tag arena set in an old saloon, where visitors can face off in teams or individually in a Wild West shootout.",
+        "latitude": 52.5880,
+        "longitude": -2.1270
+    },
+    {
+        "attractionID": "11",
+        "attractionTitle": "Tumbleweed Tunnels",
+        "attractionDescription": "Children’s play area featuring soft play obstacles, slides, and climbing structures designed to look like a windy desert with tumbleweeds.",
+        "latitude": 52.5861,
+        "longitude": -2.1320
+    },
+    {
+        "attractionID": "12",
+        "attractionTitle": "High Noon Horse Trails",
+        "attractionDescription": "Guided horseback rides along scenic trails, suitable for all experience levels, providing a true cowboy experience.",
+        "latitude": 52.5875,
+        "longitude": -2.1360
+    },
+    {
+        "attractionID": "13",
+        "attractionTitle": "Prospector’s Pan Flume Ride",
+        "attractionDescription": "A log flume ride that takes visitors on a journey through a gold prospector’s waterway, featuring educational stops about historical mining methods.",
+        "latitude": 52.5854,
+        "longitude": -2.1335
+    },
+    {
+        "attractionID": "14",
+        "attractionTitle": "Bandit’s Bluff Zip Line",
+        "attractionDescription": "An exhilarating zip line that starts from the top of a bluff and crosses over parts of the park, offering spectacular views and a thrilling ride.",
+        "latitude": 52.5885,
+        "longitude": -2.1390
+    },
+    {
+        "attractionID": "15",
+        "attractionTitle": "Sagebrush Scenic Tower",
+        "attractionDescription": "A drop tower ride themed around a water tower in a desert landscape, providing breathtaking views before a thrilling free-fall.",
+        "latitude": 52.5843,
+        "longitude": -2.1405
+    },
+    {
+        "attractionID": "16",
+        "attractionTitle": "Rodeo Arena",
+        "attractionDescription": "A venue for live rodeo events, including bull riding, barrel racing, and roping competitions, featuring professional rodeo athletes.",
+        "latitude": 52.5872,
+        "longitude": -2.1280
     }
 ]
 
