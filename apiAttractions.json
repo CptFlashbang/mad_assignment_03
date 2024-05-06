@@ -1,12 +1,58 @@
 [
     {
-        "attractionID" : "1",
+        "attractionID": "1",
         "attractionTitle": "Bucking Bronco Coaster",
-        "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces."
+        "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces.",
+        "latitude": 52.5870,
+        "longitude": -2.1288
     },
     {
-        "attractionID" : "2",
+        "attractionID": "2",
         "attractionTitle": "Gold Rush Rapids",
-        "attractionDescription": "The waterway is lined with artificial rocky outcrops, and small gold mining towns, and the rafts are designed like wooden barrels."
+        "attractionDescription": "The waterway is lined with artificial rocky outcrops, and small gold mining towns, and the rafts are designed like wooden barrels.",
+        "latitude": 52.5845,
+        "longitude": -2.1429
+    },
+    {
+        "attractionID": "3",
+        "attractionTitle": "Prairie Wind Ferris Wheel",
+        "attractionDescription": "Offers panoramic views of the park and beyond, with gondolas themed like covered wagons.",
+        "latitude": 52.5890,
+        "longitude": -2.1300
+    },
+    {
+        "attractionID": "4",
+        "attractionTitle": "Canyon Carousel",
+        "attractionDescription": "A classic carousel adorned with a range of desert animals like mustangs, bighorn sheep, and coyotes instead of traditional horses.",
+        "latitude": 52.5850,
+        "longitude": -2.1350
+    },
+    {
+        "attractionID": "5",
+        "attractionTitle": "Lasso Loop Rollercoaster",
+        "attractionDescription": "A high-speed rollercoaster that twists and turns, mimicking the loops of a thrown lasso, complete with cowboy yee-haw sound effects.",
+        "latitude": 52.5860,
+        "longitude": -2.1290
+    },
+    {
+        "attractionID": "6",
+        "attractionTitle": "The Wild West Show",
+        "attractionDescription": "Live-action stunt show featuring bank heists, horseback chases, and dramatic showdowns, performed in an open-air theater styled like an old Western town.",
+        "latitude": 52.5840,
+        "longitude": -2.1380
+    },
+    {
+        "attractionID": "7",
+        "attractionTitle": "Desert Dunes Adventure Golf",
+        "attractionDescription": "Mini-golf course with holes featuring obstacles like cacti, wagon wheels, and small sand dunes, perfect for families.",
+        "latitude": 52.5871,
+        "longitude": -2.1310
+    },
+    {
+        "attractionID": "8",
+        "attractionTitle": "Ghost Town Haunted House",
+        "attractionDescription": "Walk-through attraction with eerie ghostly encounters in the setting of an abandoned mining town, complete with special effects and live actors.",
+        "latitude": 52.5855,
+        "longitude": -2.1400
     }
 ]
