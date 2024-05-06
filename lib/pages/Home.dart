@@ -16,122 +16,151 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<dynamic> _menuItems = []; // This will hold menu items after loading
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Future weatherFuture =
-      WeatherNetworkService.getWeatherData(53.0162014, -2.1812607);
+  var isLargeScreen = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
-              },
-              child: const Text('Settings'),
-            ),
-          ],
-        ),
-        body: ListView(
-          padding: EdgeInsets.all(10.0),
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                   Image.asset('images/park_entrance.jpg'), // Ensure you have an image in assets              
-                  const Text(
-                    "Welcome to Robert's Rodeo - Adventure Awaits!",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: FutureBuilder(
+      appBar: AppBar(
+        title: const Text("Home"),
+      ),
+      body: OrientationBuilder(builder: (context, orientation) {
+        if (MediaQuery.of(context).size.width > 800) {
+          isLargeScreen = true;
+        } else {
+          isLargeScreen = false;
+        }
+        return isLargeScreen ? _buildLargeScreen() : _buildSmallScreen();
+      }),
+    );
+  }
+
+  Widget _buildLargeScreen() {
+    Future<Weather> weatherFuture =
+        WeatherNetworkService.getWeatherData(53.0162014, -2.1812607);
+
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 2, // occupies 2/3 of the screen width
+          child: SingleChildScrollView(
+            // Enables vertical scrolling
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 300, // Fixed height for the image container
+                  color: Colors.blue,
+                  child: Image.asset('images/park_entrance.jpg',
+                      fit: BoxFit.cover), // Ensures image covers the container
+                ),
+                Container(
+                  height: 300, // Fixed height for the weather container
+                  color: Colors.green,
+                  child: FutureBuilder<Weather>(
                     future: weatherFuture,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      List<Widget> children;
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Weather> snapshot) {
                       if (snapshot.hasData) {
-                        return WeatherDataWidget(
-                          weather: snapshot.data,
-                        );
+                        return WeatherDataWidget(weather: snapshot.data!);
                       } else if (snapshot.hasError) {
-                        children = <Widget>[
-                          const Icon(
-                            Icons.error_outline,
-                            color: Colors.red,
-                            size: 60,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                            child: Text('Error: ${snapshot.error}'),
-                          ),
-                        ];
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        );
                       } else {
-                        children = const <Widget>[
-                          SizedBox(
-                            width: 60,
-                            height: 60,
-                            child: CircularProgressIndicator(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 16),
-                            child: Text('Awaiting result...'),
-                          ),
-                        ];
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: children,
-                        ),
-                      );
-                    }),
-              ),
+                    },
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  Text(
-                    "Plan Your Visit!",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Find all the information you need about park hours, ticket prices, special events, and more. Make sure to check out our seasonal promotions!",
-                  ),
-                  SizedBox(height: 10),
-                ],
-              ),
+          ),
+        ),
+        Expanded(
+          flex: 1, // occupies 1/3 of the screen width
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text(
+                  "Welcome to Robert's Rodeo - Adventure Awaits!",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Plan Your Visit!",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  "Find all the information you need about park hours, ticket prices, special events, and more. Make sure to check out our seasonal promotions!",
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "Stay Connected!",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  "Follow us on social media for the latest news and exclusive behind-the-scenes content. Share your moments with us using #RobertsRodeo!",
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  Text(
-                    "Stay Connected!",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Follow us on social media for the latest news and exclusive behind-the-scenes content. Share your moments with us using #RobertsRodeo!",
-                  ),
-                  SizedBox(height: 10),
-                ],
-              ),
-            ),
-          ],
-        ));
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSmallScreen() {
+    Future<Weather> weatherFuture =
+        WeatherNetworkService.getWeatherData(53.0162014, -2.1812607);
+    return ListView(
+      padding: const EdgeInsets.all(10.0),
+      children: [
+        Image.asset(
+            'images/park_entrance.jpg'), // Ensure you have an image in assets
+        const Text(
+          "Welcome to Robert's Rodeo - Adventure Awaits!",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        FutureBuilder<Weather>(
+          future: weatherFuture,
+          builder: (BuildContext context, AsyncSnapshot<Weather> snapshot) {
+            if (snapshot.hasData) {
+              return WeatherDataWidget(weather: snapshot.data!);
+            } else if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+        const Text(
+          "Plan Your Visit!",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const Text(
+          "Find all the information you need about park hours, ticket prices, special events, and more. Make sure to check out our seasonal promotions!",
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          "Stay Connected!",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const Text(
+          "Follow us on social media for the latest news and exclusive behind-the-scenes content. Share your moments with us using #RobertsRodeo!",
+        ),
+        const SizedBox(height: 10),
+      ],
+    );
   }
 }
 
