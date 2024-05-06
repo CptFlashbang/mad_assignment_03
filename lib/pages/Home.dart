@@ -21,16 +21,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadMenuItems();
   }
 
-  Future<void> _loadMenuItems() async {
-    final String response = await rootBundle.loadString('assets/cafeMenu.json');
-    final data = await json.decode(response);
-    setState(() {
-      _menuItems = data['cafeMenu'];
-    });
-  }
   Future weatherFuture =
       WeatherNetworkService.getWeatherData(53.0162014, -2.1812607);
 
@@ -55,20 +47,6 @@ class _HomePageState extends State<HomePage> {
           margin: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _menuItems.length, // Count of menu items
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(_menuItems[index]['name']),
-                        subtitle: Text(_menuItems[index]['description']),
-                        trailing: Text("\$${_menuItems[index]['price']}"),
-                      ),
-                    );
-                  },
-                ),
-              ),
               Expanded(
                 child: Center(
                   child: FutureBuilder(
