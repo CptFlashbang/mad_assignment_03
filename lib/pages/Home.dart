@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> {
       _menuItems = data['cafeMenu'];
     });
   }
+  Future weatherFuture =
+      WeatherNetworkService.getWeatherData(53.0162014, -2.1812607);
 
   @override
   Widget build(BuildContext context) {
