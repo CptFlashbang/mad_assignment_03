@@ -48,6 +48,18 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Expanded(
+                child: Column(
+                  children: [
+                    const Text(
+                      "Welcome to Robert's Rodeo - Adventure Awaits!",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ),
+              Expanded(
                 child: Center(
                   child: FutureBuilder(
                       future: weatherFuture,
@@ -96,7 +108,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
 
 class WeatherNetworkService {
   static Future<Weather> getWeatherData(lat, lon) async {
