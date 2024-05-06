@@ -1,7 +1,9 @@
 [
     {
-        "attractionID" : "1",
+        "attractionID": "1",
         "attractionTitle": "Bucking Bronco Coaster",
-        "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces."
+        "attractionDescription": "Decorated with Western motifs, including horseshoes, cowboy hats, and saddle details. The coaster cars resemble broncos with dynamic horse-like front pieces.",
+        "latitude": 52.5870,
+        "longitude": -2.1288
     }
 ]
