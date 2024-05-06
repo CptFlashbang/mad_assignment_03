@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Column(
                 children: [
+                   Image.asset('images/park_entrance.jpg'), // Ensure you have an image in assets              
                   const Text(
                     "Welcome to Robert's Rodeo - Adventure Awaits!",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
