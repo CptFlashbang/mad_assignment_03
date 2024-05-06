@@ -52,19 +52,72 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Container(
-        margin: const EdgeInsets.all(10.0),
-        child: ListView.builder(
-          itemCount: _menuItems.length, // Count of menu items
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text(_menuItems[index]['name']),
-                subtitle: Text(_menuItems[index]['description']),
-                trailing: Text("\$${_menuItems[index]['price']}"),
+          margin: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _menuItems.length, // Count of menu items
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        title: Text(_menuItems[index]['name']),
+                        subtitle: Text(_menuItems[index]['description']),
+                        trailing: Text("\$${_menuItems[index]['price']}"),
+                      ),
+                    );
+                  },
+                ),
               ),
-            );
-          },
-        ),
+              Expanded(
+                child: Center(
+                  child: FutureBuilder(
+                      future: weatherFuture,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        List<Widget> children;
+                        if (snapshot.hasData) {
+                          return WeatherDataWidget(
+                            weather: snapshot.data,
+                          );
+                        } else if (snapshot.hasError) {
+                          children = <Widget>[
+                            const Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 60,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Text('Error: ${snapshot.error}'),
+                            ),
+                          ];
+                        } else {
+                          children = const <Widget>[
+                            SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: CircularProgressIndicator(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 16),
+                              child: Text('Awaiting result...'),
+                            ),
+                          ];
+                        }
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: children,
+                          ),
+                        );
+                      }),
+                ),
+              )
+            ],
+          )),
+    );
+  }
+}
 
 
 class WeatherNetworkService {
