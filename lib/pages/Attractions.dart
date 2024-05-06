@@ -122,22 +122,26 @@ class Attraction {
   final String attractionTitle;
   final String attractionDescription;
   bool isSaved; // Add a flag to manage saved state
+  final double latitude; // Added latitude
+  final double longitude; // Added longitude
 
   Attraction({
     required this.attractionID,
     required this.attractionTitle,
     required this.attractionDescription,
     this.isSaved = false,
+    required this.latitude, // Initialize latitude
+    required this.longitude, // Initialize longitude
   });
 
   factory Attraction.fromJson(Map<String, dynamic> json) {
     return Attraction(
-      attractionID: json['attractionID'] ?? 'defaultID', // Provide a default ID
-      attractionTitle:
-          json['attractionTitle'] ?? 'No title', // Provide a default title
-      attractionDescription: json['attractionDescription'] ??
-          'No description', // Provide a default description
+      attractionID: json['attractionID'] ?? 'defaultID',
+      attractionTitle: json['attractionTitle'] ?? 'No title',
+      attractionDescription: json['attractionDescription'] ?? 'No description',
       isSaved: false,
+      latitude: json['latitude'].toDouble(), // Parse latitude
+      longitude: json['longitude'].toDouble(), // Parse longitude
     );
   }
 }
@@ -167,9 +171,14 @@ class AttractionDetail extends StatelessWidget {
             onPressed: () async {
               try {
                 AttractionModel attractionModel = AttractionModel(
-                    id: attraction.attractionID,
-                    name: attraction.attractionTitle,
-                    saved: attraction.isSaved);
+                  id: attraction.attractionID,
+                  name: attraction.attractionTitle,
+                  saved: attraction.isSaved,
+                  description: attraction.attractionDescription,
+                  latitude: attraction.latitude, // Pass latitude
+                  longitude: attraction.longitude, // Pass longitude
+                );
+
                 await dbService.insertAttraction(attractionModel);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('${attraction.attractionTitle} saved!'),
