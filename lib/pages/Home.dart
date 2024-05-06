@@ -29,83 +29,108 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
-            child: const Text('Settings'),
-          ),
-        ],
-      ),
-      body: Container(
-          margin: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      "Welcome to Robert's Rodeo - Adventure Awaits!",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                  ],
-                ),
+        appBar: AppBar(
+          title: const Text("Home"),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
+              child: const Text('Settings'),
+            ),
+          ],
+        ),
+        body: ListView(
+          padding: EdgeInsets.all(10.0),
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  const Text(
+                    "Welcome to Robert's Rodeo - Adventure Awaits!",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                ],
               ),
-              Expanded(
-                child: Center(
-                  child: FutureBuilder(
-                      future: weatherFuture,
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        List<Widget> children;
-                        if (snapshot.hasData) {
-                          return WeatherDataWidget(
-                            weather: snapshot.data,
-                          );
-                        } else if (snapshot.hasError) {
-                          children = <Widget>[
-                            const Icon(
-                              Icons.error_outline,
-                              color: Colors.red,
-                              size: 60,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16),
-                              child: Text('Error: ${snapshot.error}'),
-                            ),
-                          ];
-                        } else {
-                          children = const <Widget>[
-                            SizedBox(
-                              width: 60,
-                              height: 60,
-                              child: CircularProgressIndicator(),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text('Awaiting result...'),
-                            ),
-                          ];
-                        }
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: children,
-                          ),
+            ),
+            Expanded(
+              child: Center(
+                child: FutureBuilder(
+                    future: weatherFuture,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      List<Widget> children;
+                      if (snapshot.hasData) {
+                        return WeatherDataWidget(
+                          weather: snapshot.data,
                         );
-                      }),
-                ),
-              )
-            ],
-          )),
-    );
+                      } else if (snapshot.hasError) {
+                        children = <Widget>[
+                          const Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 60,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Text('Error: ${snapshot.error}'),
+                          ),
+                        ];
+                      } else {
+                        children = const <Widget>[
+                          SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: CircularProgressIndicator(),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: Text('Awaiting result...'),
+                          ),
+                        ];
+                      }
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: children,
+                        ),
+                      );
+                    }),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    "Plan Your Visit!",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Find all the information you need about park hours, ticket prices, special events, and more. Make sure to check out our seasonal promotions!",
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    "Stay Connected!",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Follow us on social media for the latest news and exclusive behind-the-scenes content. Share your moments with us using #RobertsRodeo!",
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }
 
