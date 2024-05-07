@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:mad_assignment_03/pages/login.dart';
 import 'package:mad_assignment_03/pages/home.dart';
 import 'package:mad_assignment_03/pages/attractions.dart';
 import 'package:mad_assignment_03/pages/map.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: Colors.deepOrange,
             backgroundColor: Color(0xFF391B92)),
       ),
-      home: const MyHomePage(title: 'Roberts Rodeo companion app'),
+      home: const Login(title: 'Roberts Rodeo companion app'),
       debugShowCheckedModeBanner: false,
     );
   }
