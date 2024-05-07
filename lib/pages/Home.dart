@@ -23,6 +23,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsPage()),
+              );
+            },
+            child: const Text('Settings'),
+          ),
+        ],
       ),
       body: OrientationBuilder(builder: (context, orientation) {
         if (MediaQuery.of(context).size.width > 800) {
