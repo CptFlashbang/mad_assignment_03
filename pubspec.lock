@@ -222,6 +222,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.19"
+  flutter_snake:
+    dependency: "direct main"
+    description:
+      name: flutter_snake
+      sha256: "3d71e18d8d950460b434e13ddc29639bc00e3e8e5bcf6c706d51ed57f72c00b3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
