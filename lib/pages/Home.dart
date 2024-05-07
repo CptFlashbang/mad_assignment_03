@@ -211,18 +211,18 @@ class WeatherDataWidget extends StatelessWidget {
           Text(
             weather.name,
             style: const TextStyle(
-              fontSize: 50,
+              fontSize: 24,
             ),
           ),
           Text(
             weather.weatherPic,
             style: const TextStyle(
-              fontSize: 50,
+              fontSize: 24,
             ),
           ),
           Text(
             "${weather.temperature.toStringAsFixed(2)}°C",
-            style: const TextStyle(fontSize: 50),
+            style: const TextStyle(fontSize: 24),
           ),
           weather.temperatureFeeling < 15.0
               ? const Icon(
