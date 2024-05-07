@@ -19,9 +19,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Roberts Rodeo companion app',
       theme: ThemeData(
+        useMaterial3: true,
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: Color.fromARGB(255, 247, 201, 0),
         ),
       ),
       darkTheme: ThemeData(
